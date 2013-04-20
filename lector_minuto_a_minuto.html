@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta name="viewport" content="width=device-width,user-scalable=no"/>
+	<title>Node.js Notificador</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://luantoc182-appsnodejitsu.jit.su/socket.io/socket.io.js"></script>
+	
+	<script type="text/javascript">
+	var websocket = io.connect("http://luantoc182-appsnodejitsu.jit.su");
+	
+	$(document).on("ready",iniciar);
+
+	function iniciar(){
+		websocket.on("marcador",mostrarMarcador);	
+		websocket.on("nuevo_comentario",agregarComentario);	
+		websocket.on("datos_partido",mostrarDatosPartidoInicio);	
+
+
+	}
+
+	function mostrarMarcador (dato) {
+		$("#marc1").html(dato.marcador1);
+		$("#marc2").html(dato.marcador2);
+	}
+
+	function agregarComentario (dato) {
+		$("#comentarios").prepend("<tr><td>Minuto "+dato.minuto+"'</td><td>"+dato.comentario+"</td></tr>");
+	}
+
+	function mostrarDatosPartidoInicio(dato){
+		mostrarMarcador(dato.marcador);
+		$.each(dato.comentarios,function(i,item){
+				agregarComentario(item);
+
+		});
+
+	}
+	</script>
+</head>
+<body>
+	<div align="center" width="50%">
+		<span >BARCELONA</span>	
+		<span id="marc1"></span> - 	
+		<span id="marc2"></span>	
+		<span >REAL MADRID</span>	
+	</div>	
+
+	<div align="center" width="50%">
+		<table id="comentarios" width="100%"  bgcolor="#ccc">
+
+		</TABLE>
+	</div>
+</body>
+
+</html>

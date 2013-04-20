@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8"/>
+	<title>Node.js Notificador</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://luantoc182-appsnodejitsu.jit.su/socket.io/socket.io.js"></script>
+	
+	<script type="text/javascript">
+	var websocket = io.connect("http://luantoc182-appsnodejitsu.jit.su");
+	
+	$(document).on("ready",iniciar);
+
+	function iniciar(){
+		$("#formulario").on("submit",enviarMarcador);
+		$("#formulario_comentario").on("submit",enviarComentario);	
+
+	}
+
+	function enviarMarcador (event) {
+		event.preventDefault();
+		var dato ={
+			marcador1 :$("#marcador1").val(),
+			marcador2 :$("#marcador2").val()
+		}
+		websocket.emit("actualiza_marcador",dato);
+	}
+
+	function enviarComentario (event) {
+		event.preventDefault();
+		var dato ={
+			minuto :$("#minuto").val(),
+			comentario :$("#comentario").val()
+		}
+		websocket.emit("nuevo_comentario",dato);
+	}
+	</script>
+</head>
+<body>
+	<form id="formulario">
+		<label>Modifica Marcador</label>
+		<label>Marcador1</label>
+		<input type="text" id="marcador1" required/>
+		<label>Marcador2</label>
+		<input type="text" id="marcador2" required/>
+		<button > Enviar</button>
+	</form>
+
+	<form id="formulario_comentario">
+		<label>Agrega Comentario</label>
+		<label>Minuto</label>
+		<input type="text" id="minuto" required/>
+		<label>Comentario</label>
+		<textarea id="comentario" required></textarea> 
+		<button > Enviar</button>
+	</form>
+
+	<div id="accesos">
+
+	</div>	
+</body>
+
+</html>
