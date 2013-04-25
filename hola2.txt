@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 Hola2
+=======
+Rama Nueva
+>>>>>>> newp
